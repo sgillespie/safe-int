@@ -18,6 +18,7 @@ library
     import: warnings
     exposed-modules:
       MyLib
+      Data.Int.Safe
       Data.Int.Unsafe
     build-depends: base ^>=4.18.1.0
     hs-source-dirs: src
@@ -42,6 +43,7 @@ test-suite safe-int-test
     hs-source-dirs:   test
     main-is:          Main.hs
     other-modules:
+      Test.Data.Int.Safe
       Test.Data.Int.Unsafe
       Test.Gen
     build-depends:

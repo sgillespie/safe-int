@@ -1,12 +1,12 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Test.Data.Int.Unsafe (tests) where
 
 import Test.Gen qualified as Gen
 
 import Hedgehog
-import Hedgehog.Gen qualified as Gen
 import Hedgehog.Range qualified as Range
 import Test.Tasty (TestTree(), testGroup)
-import Test.Tasty.Hedgehog (testProperty)
+import Test.Tasty.Hedgehog (testPropertyNamed)
 import Test.Tasty.ExpectedFailure (expectFailBecause)
 
 tests :: TestTree
@@ -14,11 +14,19 @@ tests =
   testGroup
     "Data.Int.Unsafe"
     [ expectFailBecause "UnsafeInt should create overflows" $
-        testProperty "Addition" prop_add,
+        testPropertyNamed "Addition" "prop_add" prop_add,
 
-      testProperty "Safe Addition" prop_add_safe,
-      testProperty "Unsafe Addition Overflow" prop_add_unsafe_positive,
-      testProperty "Unsafe Addition Underflow" prop_add_unsafe_negative
+      testPropertyNamed "Safe Addition" "prop_add_safe" prop_add_safe,
+
+      testPropertyNamed
+        "Unsafe Addition Overflow"
+        "prop_add_unsafe_positive"
+        prop_add_unsafe_positive,
+
+      testPropertyNamed
+        "Unsafe Addition Underflow"
+        "prop_add_unsafe_negative"
+        prop_add_unsafe_negative
     ]
 
 prop_add :: Property
